@@ -128,15 +128,16 @@
             const shipping = document.querySelector('input[name="shipOption"]:checked').value;
             
             // --- แก้ไขตรงนี้: ใส่ LINE ID ของคุณแทนคำว่า YOUR_ID ---
-            const lineId = "259eetzg"; 
+            const lineId = "tonkawlol"; 
             
             const text = `สั่งซื้อสินค้า: ${name}\nราคา: ${price}\nการจัดส่ง: ${shipping}`;
-            const url = `https://line.me/R/oaMessage/${lineId}/?${encodeURIComponent(text)}`;
+            const url = `https://line.me/R/msg/text/?${encodeURIComponent(text + '\nส่งหา: ' + lineId)}`;
             window.open(url, '_blank');
         }
     </script>
 </body>
 </html>
+
 
 
 
