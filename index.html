@@ -19,7 +19,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Kanit', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); }
 
-        /* --- Header --- */
         header {
             background: linear-gradient(to bottom, var(--primary-pink), #ffffff);
             padding: 20px 25px;
@@ -46,10 +45,10 @@
 
         .cart-btn {
             position: absolute; right: 25px; background-color: var(--dark-pink); color: white;
-            border: none; padding: 10px 20px; border-radius: 30px; font-weight: 600; cursor: pointer;
+            border: none; padding: 10px 24px; border-radius: 30px; font-weight: 600; cursor: pointer;
+            transition: 0.3s;
         }
 
-        /* --- Product Grid --- */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         
@@ -60,25 +59,20 @@
         }
         .product-card:hover { transform: translateY(-10px); border-color: var(--primary-pink); }
         
-        .img-container {
-            width: 100%; padding: 15px; aspect-ratio: 1/1; 
-            display: flex; align-items: center; justify-content: center;
-        }
+        .img-container { width: 100%; padding: 15px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; }
         .product-img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: pointer; }
 
         .product-info { padding: 15px; flex-grow: 1; }
-        .product-title { font-size: 1rem; color: var(--dark-blue); height: 45px; margin-bottom: 10px; font-weight: 600; }
+        .product-title { font-size: 1rem; color: var(--dark-blue); height: 50px; margin-bottom: 10px; font-weight: 600; overflow: hidden; }
         .product-price { font-weight: 700; font-size: 1.4rem; color: var(--dark-pink); margin-bottom: 15px; }
 
         .btn { background-color: var(--primary-pink); color: white; border: none; padding: 12px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 100%; transition: 0.3s; }
         .btn:hover { background-color: var(--dark-pink); }
 
-        /* --- Modal --- */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 20px; max-width: 500px; width: 90%; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-content { background: white; padding: 25px; border-radius: 20px; max-width: 550px; width: 90%; position: relative; max-height: 90vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #999; }
 
-        /* --- Shipping & Payment --- */
         .shipping-section { background: #fff9fc; padding: 15px; border-radius: 12px; margin-top: 15px; border: 1px solid var(--light-pink); }
         .bank-info { background: #f0f7ff; padding: 15px; border-radius: 12px; margin: 15px 0; border: 2px dashed var(--science-cyan); text-align: center; }
         .input-field { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; }
@@ -100,17 +94,17 @@
     </header>
 
     <div class="container">
-        <h2 style="text-align: center; margin-bottom: 30px; color: var(--dark-blue);">🔬 อุปกรณ์วิทยาศาสตร์สุดเจ๋ง</h2>
+        <h2 style="text-align: center; margin-bottom: 30px; color: var(--dark-blue);">🔬 อุปกรณ์วิทยาศาสตร์ระดับโปร</h2>
         <div class="product-grid" id="product-list"></div>
     </div>
 
     <div class="modal" id="product-modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('product-modal')">&times;</span>
-            <div style="text-align: center;"><img id="modal-img" style="max-width: 100%; height: 200px; object-fit: contain;"></div>
-            <h2 id="modal-title" style="margin-top:15px; color: var(--dark-blue);"></h2>
-            <p id="modal-price" style="color:var(--dark-pink); font-size:1.5rem; font-weight:bold;"></p>
-            <div id="modal-desc" style="margin: 15px 0; font-size: 0.95rem; background: #f9f9f9; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary-pink);"></div>
+            <div style="text-align: center;"><img id="modal-img" style="max-width: 100%; height: 220px; object-fit: contain;"></div>
+            <h2 id="modal-title" style="margin-top:15px; color: var(--dark-blue); font-size: 1.2rem;"></h2>
+            <p id="modal-price" style="color:var(--dark-pink); font-size:1.6rem; font-weight:bold; margin: 10px 0;"></p>
+            <div id="modal-desc" style="margin: 15px 0; font-size: 0.95rem; background: #f9f9f9; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary-pink); line-height: 1.6;"></div>
             <button class="btn" id="modal-add-btn">🧬 เพิ่มลงตะกร้า</button>
         </div>
     </div>
@@ -143,264 +137,29 @@
                 <textarea id="c-address" class="input-field" style="height:60px;" placeholder="ที่อยู่จัดส่ง"></textarea>
                 
                 <div style="text-align: right; font-size: 1.3rem; font-weight: bold; margin: 10px 0;">
-                    ยอดที่ต้องโอน: <span id="cart-total" style="color: var(--dark-pink);">0</span> บาท
+                    ยอดรวมสุทธิ: <span id="cart-total" style="color: var(--dark-pink);">0</span> บาท
                 </div>
                 <button class="btn" onclick="processOrder()">แจ้งโอนและยืนยันการสั่งซื้อ</button>
             </div>
         </div>
     </div>
 
-     <script>
-
-        // ข้อมูลสินค้า 10 ชิ้น (แบบมีคุณสมบัติยาวๆ)
-
+    <script>
         const products = [
-
-            {
-
-                id: 1,
-
-                name: "เครื่องโครมาโทกราฟีของเหลวสมรรถนะสูง (High Performance Liquid Chromatography System: HPLC)",
-
-                price: 4000000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • แยกและวิเคราะห์สารผสมความซับซ้อนสูง<br>
-
-                • ระบบปั๊มแรงดันสูง<br>
-
-                • มีตัวตรวจจับ (UV/Vis Detector)<br>
-
-                • ควบคุมผ่านซอฟต์แวร์วิเคราะห์ข้อมูล<br><br>
-
-                <b>เหมาะสำหรับ:</b> งานวิเคราะห์ยา, อาหาร, สิ่งแวดล้อม, งานวิจัยขั้นสูง`,
-
-                img: "images/chromatro.jpg"
-
-            },
-
-            {
-
-                id: 2,
-
-                name: "เครื่องชั่งวิเคราะห์ความละเอียดสูง (Analytical Balance)",
-
-                price: 400000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • ความละเอียด 0.0001 กรัม (0.1 mg)<br>
-
-                • ตู้กระจกกันลมเพื่อความแม่นยำ<br>
-
-                • ระบบปรับเทียบอัตโนมัติ<br>
-
-                • หน้าจอดิจิทัลความคมชัดสูง<br><br>
-
-                <b>เหมาะสำหรับ:</b> งานเตรียมสารมาตรฐาน, งานวิจัยเชิงปริมาณ`,
-
-                img: "images/chung.jpg"
-
-            },
-
-            {
-
-                id: 3,
-
-                name: "เครื่องนึ่งฆ่าเชื้อความดันไอน้ำ (Autoclave)",
-
-                price: 1000000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • ฆ่าเชื้อด้วยไอน้ำแรงดันสูง 121–134°C<br>
-
-                • ระบบควบคุมอุณหภูมิและเวลาอัตโนมัติ<br>
-
-                • โครงสร้างสแตนเลสเกรดอุตสาหกรรม<br>
-
-                • ระบบความปลอดภัยหลายชั้น<br><br>
-
-                <b>เหมาะสำหรับ:</b> ห้องปฏิบัติการชีววิทยา, โรงพยาบาล`,
-
-                img: "images/nung.jpg"
-
-            },
-
-            {
-
-                id: 4,
-
-                name: "ตู้ปลอดเชื้อแบบลมสะอาดแนวนอน (Laminar Air Flow Cabinet)",
-
-                price: 900000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • ระบบกรอง HEPA Filter ประสิทธิภาพสูง<br>
-
-                • สร้างสภาวะปลอดเชื้อสำหรับเตรียมตัวอย่าง<br>
-
-                • มีหลอดไฟ UV ฆ่าเชื้อ<br>
-
-                • กระจกนิรภัยด้านหน้า<br><br>
-
-                <b>เหมาะสำหรับ:</b> งานเพาะเลี้ยงเซลล์, งานจุลชีววิทยา`,
-
-                img: "images/pod.jpg"
-
-            },
-
-            {
-
-                id: 5,
-
-                name: "เครื่องระเหยสารแบบหมุน (Rotary Evaporator / Rotavap)",
-
-                price: 800000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • ใช้ระเหยตัวทำละลายออกจากสารตัวอย่างภายใต้ความดันต่ำ<br>
-
-                • ควบคุมอุณหภูมิอ่างน้ำได้แม่นยำ<br>
-
-                • ระบบหมุนช่วยเพิ่มพื้นที่ผิวการระเหย<br>
-
-                • มีคอนเดนเซอร์ควบแน่นไอสารกลับเป็นของเหลว<br><br>
-
-                <b>เหมาะสำหรับ:</b> งานสกัดสาร, เคมีอินทรีย์, งานวิจัยระดับมหาวิทยาลัย`,
-
-                img: "images/rahei.jpg"
-
-            },
-
-            {
-
-                id: 6,
-
-                name: "เครื่องสเปกโตรโฟโตมิเตอร์ยูวี-วิส (UV-Vis Spectrophotometer)",
-
-                price: 1200000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • วิเคราะห์การดูดกลืนแสงช่วง UV และ Visible<br>
-
-                • ใช้วัดความเข้มข้นของสารตามกฎของ Beer-Lambert<br>
-
-                • มีหน้าจอดิจิทัลและระบบประมวลผลข้อมูล<br>
-
-                • รองรับงานวิเคราะห์เชิงคุณภาพและเชิงปริมาณ<br><br>
-
-                <b>เหมาะสำหรับ:</b> เคมีวิเคราะห์, ชีวเคมี, งานควบคุมคุณภาพ`,
-
-                img: "images/spectro.jpg"
-
-            },
-
-            {
-
-                id: 7,
-
-                name: "เครื่องปั่นเหวี่ยงความเร็วสูง (High-Speed Laboratory Centrifuge)",
-
-                price: 1500000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • ความเร็วรอบสูงถึง 30,000 rpm<br>
-
-                • ระบบล็อกฝาปลอดภัย<br>
-
-                • ควบคุมรอบและเวลาแบบดิจิทัล<br>
-
-                • รองรับโรเตอร์หลายประเภท<br><br>
-
-                <b>เหมาะสำหรับ:</b> เเยกตะกอน, งานชีวโมเลกุล, งานวิจัยขั้นสูง`,
-
-                img: "images/weang.jpg"
-
-            },
-
-            {
-
-                id: 8,
-
-                name: "ตู้บ่มควบคุมอุณหภูมิ (Laboratory Incubator)",
-
-                price: 700000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • ควบคุมอุณหภูมิได้แม่นยำ ±0.1–0.5°C<br>
-
-                • ระบบกระจายความร้อนสม่ำเสมอ<br>
-
-                • หน้าจอดิจิทัลตั้งค่าได้ง่าย<br>
-
-                • ประตูสองชั้นลดการสูญเสียความร้อน<br><br>
-
-                <b>เหมาะสำหรับ:</b> เพาะเลี้ยงจุลชีพ, ทดสอบความคงตัว`,
-
-                img: "images/bom.jpg"
-
-            },
-
-            {
-
-                id: 9,
-
-                name: " ตู้อบสุญญากาศ (Vacuum Oven)",
-
-                price: 1200000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • อบแห้งภายใต้สภาวะสุญญากาศ<br>
-
-                • เหมาะกับสารไวความร้อน<br>
-
-                • ระบบควบคุมอุณหภูมิแม่นยำ<br>
-
-                • มีช่องมองกระจกนิรภัย<br><br>
-
-                <b>เหมาะสำหรับ:</b> งานอบตัวอย่างสารอินทรีย์, งานวิจัยวัสดุ`,
-
-                img: "images/oob.jpg"
-
-            },
-
-            {
-
-                id: 10,
-
-                name: "ชุดไมโครปิเปตปรับปริมาตรได้ (Micropipette Set – Premium)",
-
-                price: 120000,
-
-                desc: `<b>คุณสมบัติการใช้งาน</b><br>
-
-                • ปรับปริมาตรได้หลายช่วง (µL – mL)<br>
-
-                • ความแม่นยำสูง ±0.5–1%<br>
-
-                • ออกแบบตามหลักสรีรศาสตร์<br>
-
-                • ทนสารเคมีและฆ่าเชื้อได้<br><br>
-
-                <b>เหมาะสำหรับ:</b> งานชีวเคมี, โมเลกุลาร์, เตรียมสารปริมาตรน้อย`,
-
-                img: "images/pipett.jpg"
-
-            }
-
+            { id: 1, name: "เครื่องโครมาโทกราฟีของเหลวสมรรถนะสูง (High Performance Liquid Chromatography System: HPLC)", price: 4000000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• แยกและวิเคราะห์สารผสมความซับซ้อนสูง<br>• ระบบปั๊มแรงดันสูง แม่นยำทุกการไหล<br>• มีตัวตรวจจับ (UV/Vis Detector)<br>• ควบคุมผ่านซอฟต์แวร์วิเคราะห์ข้อมูล<br><br><b>เหมาะสำหรับ:</b> งานวิเคราะห์ยา, อาหาร, สิ่งแวดล้อม, งานวิจัยขั้นสูง`, img: "images/chromatro.jpg" },
+            { id: 2, name: "เครื่องชั่งวิเคราะห์ความละเอียดสูง (Analytical Balance)", price: 400000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ความละเอียด 0.0001 กรัม (0.1 mg)<br>• ตู้กระจกกันลมเพื่อความแม่นยำสูงสุด<br>• ระบบปรับเทียบ (Calibration) อัตโนมัติ<br>• หน้าจอดิจิทัลความคมชัดสูง<br><br><b>เหมาะสำหรับ:</b> งานเตรียมสารมาตรฐาน, งานวิจัยเชิงปริมาณ`, img: "images/chung.jpg" },
+            { id: 3, name: "เครื่องนึ่งฆ่าเชื้อความดันไอน้ำ (Autoclave)", price: 1000000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ฆ่าเชื้อด้วยไอน้ำแรงดันสูง 121–134°C<br>• ระบบควบคุมอุณหภูมิและเวลาอัตโนมัติ<br>• โครงสร้างสแตนเลสเกรดอุตสาหกรรมทนทาน<br>• ระบบความปลอดภัยหลายชั้นป้องกันแรงดันเกิน<br><br><b>เหมาะสำหรับ:</b> ห้องปฏิบัติการชีววิทยา, โรงพยาบาล`, img: "images/nung.jpg" },
+            { id: 4, name: "ตู้ปลอดเชื้อแบบลมสะอาดแนวนอน (Laminar Air Flow Cabinet)", price: 900000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ระบบกรอง HEPA Filter ประสิทธิภาพ 99.99%<br>• สร้างสภาวะปลอดเชื้อสำหรับเตรียมตัวอย่างสำคัญ<br>• มีหลอดไฟ UV ฆ่าเชื้อและพัดลมปรับความเร็วได้<br>• กระจกนิรภัยป้องกันด้านหน้า<br><br><b>เหมาะสำหรับ:</b> งานเพาะเลี้ยงเซลล์, งานจุลชีววิทยา`, img: "images/pod.jpg" },
+            { id: 5, name: "เครื่องระเหยสารแบบหมุน (Rotary Evaporator / Rotavap)", price: 800000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ใช้ระเหยตัวทำละลายออกจากสารตัวอย่างภายใต้ความดันต่ำ<br>• ควบคุมอุณหภูมิอ่างน้ำ (Heating Bath) ได้แม่นยำ<br>• ระบบหมุนช่วยเพิ่มพื้นที่ผิวการระเหยให้รวดเร็วขึ้น<br>• มีคอนเดนเซอร์ควบแน่นไอสารคุณภาพสูง<br><br><b>เหมาะสำหรับ:</b> งานสกัดสาร, เคมีอินทรีย์, งานวิจัยระดับมหาวิทยาลัย`, img: "images/rahei.jpg" },
+            { id: 6, name: "เครื่องสเปกโตรโฟโตมิเตอร์ยูวี-วิส (UV-Vis Spectrophotometer)", price: 1200000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• วิเคราะห์การดูดกลืนแสงช่วง UV และ Visible<br>• ใช้วัดความเข้มข้นของสารตามกฎของ Beer-Lambert<br>• มีหน้าจอดิจิทัลและระบบประมวลผลข้อมูลในตัว<br>• รองรับงานวิเคราะห์เชิงคุณภาพและเชิงปริมาณ<br><br><b>เหมาะสำหรับ:</b> เคมีวิเคราะห์, ชีวเคมี, งานควบคุมคุณภาพ`, img: "images/spectro.jpg" },
+            { id: 7, name: "เครื่องปั่นเหวี่ยงความเร็วสูง (High-Speed Laboratory Centrifuge)", price: 1500000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ความเร็วรอบสูงถึง 30,000 rpm แยกสารได้รวดเร็ว<br>• ระบบล็อกฝานิรภัยอัตโนมัติขณะเครื่องทำงาน<br>• ควบคุมรอบและเวลาด้วยระบบดิจิทัลแม่นยำ<br>• รองรับโรเตอร์หลายขนาดตามการใช้งาน<br><br><b>เหมาะสำหรับ:</b> เเยกตะกอน, งานชีวโมเลกุล, งานวิจัยขั้นสูง`, img: "images/weang.jpg" },
+            { id: 8, name: "ตู้บ่มควบคุมอุณหภูมิ (Laboratory Incubator)", price: 700000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ควบคุมอุณหภูมิได้แม่นยำในช่วง ±0.1–0.5°C<br>• ระบบกระจายความร้อนสม่ำเสมอทั่วทั้งตู้<br>• หน้าจอดิจิทัลตั้งค่าง่ายพร้อมระบบแจ้งเตือน<br>• ประตูสองชั้นเพื่อรักษาอุณหภูมิภายใน<br><br><b>เหมาะสำหรับ:</b> เพาะเลี้ยงจุลชีพ, ทดสอบความคงตัวของผลิตภัณฑ์`, img: "images/bom.jpg" },
+            { id: 9, name: "ตู้อบสุญญากาศ (Vacuum Oven)", price: 1200000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• อบแห้งตัวอย่างภายใต้สภาวะสุญญากาศ<br>• เหมาะกับสารที่ไวต่อความร้อนหรือทำปฏิกิริยากับอากาศ<br>• ระบบควบคุมอุณหภูมิและดิจิทัลเกจวัดสุญญากาศ<br>• มีช่องมองกระจกนิรภัยหนาพิเศษ<br><br><b>เหมาะสำหรับ:</b> งานอบตัวอย่างสารอินทรีย์, งานวิจัยวัสดุศาสตร์`, img: "images/oob.jpg" },
+            { id: 10, name: "ชุดไมโครปิเปตปรับปริมาตรได้ (Micropipette Set – Premium)", price: 120000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ปรับปริมาตรได้แม่นยำสูงหลายช่วง (µL – mL)<br>• ความคลาดเคลื่อนต่ำมาก (±0.5–1%)<br>• ออกแบบตามหลักสรีรศาสตร์ ลดความเมื่อยล้า<br>• วัสดุทนสารเคมีและสามารถนำไปฆ่าเชื้อได้ทั้งตัว<br><br><b>เหมาะสำหรับ:</b> งานชีวเคมี, งานโมเลกุลาร์, การเตรียมสารปริมาตรน้อย`, img: "images/pipett.jpg" }
         ];
 
-
         let cart = [];
-        let itemsTotal = 0;
+        let subTotal = 0;
 
         const list = document.getElementById('product-list');
         products.forEach(p => {
@@ -432,17 +191,17 @@
         function openCart() {
             const itemsDiv = document.getElementById('cart-items');
             itemsDiv.innerHTML = '';
-            itemsTotal = 0;
+            subTotal = 0;
             if (cart.length === 0) {
-                itemsDiv.innerHTML = '<p style="text-align:center; color:#999;">ตะกร้าว่างเปล่า</p>';
+                itemsDiv.innerHTML = '<p style="text-align:center; color:#999; padding: 20px;">ตะกร้าว่างเปล่า</p>';
                 document.getElementById('checkout-form').style.display = 'none';
             } else {
                 document.getElementById('checkout-form').style.display = 'block';
                 cart.forEach((item, index) => {
-                    itemsTotal += item.price;
+                    subTotal += item.price;
                     itemsDiv.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
-                        <span style="font-size:0.9rem;">${item.name}</span>
-                        <span>฿${item.price.toLocaleString()} <button onclick="remove(${index})" style="color:red; border:none; background:none; cursor:pointer;">✖</button></span>
+                        <span style="font-size:0.85rem; flex: 1;">${item.name}</span>
+                        <span style="font-weight:bold;">฿${item.price.toLocaleString()} <button onclick="remove(${index})" style="color:red; border:none; background:none; cursor:pointer; font-size: 1.1rem; margin-left: 5px;">&times;</button></span>
                     </div>`;
                 });
             }
@@ -454,7 +213,7 @@
             let ship = 0;
             const shipOpts = document.getElementsByName('ship-method');
             shipOpts.forEach(opt => { if(opt.checked) ship = parseInt(opt.value); });
-            document.getElementById('cart-total').innerText = (itemsTotal + ship).toLocaleString();
+            document.getElementById('cart-total').innerText = (subTotal + ship).toLocaleString();
         }
 
         function remove(idx) { cart.splice(idx, 1); document.getElementById('cart-count').innerText = cart.length; openCart(); }
@@ -464,11 +223,11 @@
             const name = document.getElementById('c-name').value;
             const phone = document.getElementById('c-phone').value;
             const addr = document.getElementById('c-address').value;
-            if (!name || !phone || !addr) { alert('กรุณากรอกข้อมูลผู้รับและที่อยู่ให้ครบถ้วนนะครับ'); return; }
+            if (!name || !phone || !addr) { alert('กรุณากรอกข้อมูลให้ครบถ้วนนะครับ'); return; }
 
-            document.getElementById('cart-items').innerHTML = `<div style="text-align:center; padding: 20px;">
+            document.getElementById('cart-items').innerHTML = `<div style="text-align:center; padding: 30px 10px;">
                 <h2 style="color:var(--science-cyan);">🎉 แจ้งโอนสำเร็จ!</h2>
-                <p style="margin-top:10px;">ขอบคุณคุณ <b>${name}</b><br>พี่จะรีบตรวจสอบยอดและส่งไปที่ ${addr} ครับ!</p>
+                <p style="margin-top:10px;">ขอบคุณคุณ <b>${name}</b><br>เราจะรีบจัดส่งสินค้าไปที่<br>${addr} ครับ!</p>
             </div>`;
             document.getElementById('checkout-form').style.display = 'none';
             cart = []; document.getElementById('cart-count').innerText = '0';
@@ -477,6 +236,3 @@
     </script>
 </body>
 </html>
-
-
-
