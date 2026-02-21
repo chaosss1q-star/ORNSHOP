@@ -19,7 +19,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Kanit', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); }
 
-        /* --- Header & Logo --- */
+        /* --- Header & Logo (Responsive) --- */
         header {
             background: linear-gradient(to bottom, var(--primary-pink), #ffffff);
             padding: 20px 25px;
@@ -59,8 +59,9 @@
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
         .product-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; padding-bottom: 20px; border-bottom: 4px solid var(--primary-pink); transition: 0.3s; }
         .product-card:hover { transform: translateY(-8px); border-bottom-color: var(--science-cyan); }
-        .product-img { width: 100%; height: 220px; object-fit: cover; cursor: pointer; }
+        .product-img { width: 100%; height: 220px; object-fit: cover; cursor: pointer; border-bottom: 1px solid #eee; }
         .product-info { padding: 20px 15px; }
+        .product-title { font-size: 1.1rem; margin-bottom: 12px; color: var(--dark-blue); height: 50px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
         .product-price { font-weight: 600; font-size: 1.3rem; color: var(--dark-pink); margin-bottom: 15px; }
 
         .btn { background-color: var(--primary-pink); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; width: 80%; transition: 0.3s; }
@@ -68,25 +69,21 @@
 
         /* --- Modals --- */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 30, 0.6); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 20px; max-width: 550px; width: 90%; position: relative; max-height: 90vh; overflow-y: auto; border-top: 5px solid var(--science-cyan); }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; max-width: 550px; width: 95%; position: relative; max-height: 90vh; overflow-y: auto; border-top: 5px solid var(--science-cyan); }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #aaa; }
 
         /* --- Form Styling --- */
         .form-group { margin-top: 20px; padding-top: 15px; border-top: 2px solid #eee; }
-        .form-group h4 { color: var(--dark-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
-        .input-field { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; transition: 0.3s; }
-        .input-field:focus { border-color: var(--primary-pink); box-shadow: 0 0 5px rgba(255, 105, 180, 0.3); }
+        .input-field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; }
+        .input-field:focus { border-color: var(--primary-pink); }
         textarea.input-field { height: 80px; resize: none; }
 
-        .shipping-options { background-color: #F8F9FA; padding: 15px; border-radius: 10px; margin: 15px 0; border: 1px solid #eee; }
-        .shipping-options label { display: block; margin-bottom: 8px; cursor: pointer; }
-        
         @media screen and (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; }
-            .logo-container { padding: 10px 20px; }
-            .logo-img { height: 60px; width: 60px; }
-            .logo-text { font-size: 1.6rem; }
+            header { flex-direction: column; gap: 15px; padding: 15px; }
+            .logo-img { height: 65px; width: 65px; }
+            .logo-text { font-size: 1.7rem; }
             .cart-btn { position: static; width: 100%; justify-content: center; }
+            .logo-container { padding: 10px 20px; gap: 10px; }
         }
     </style>
 </head>
@@ -98,12 +95,12 @@
             <span class="logo-text">SamSAO.Shop</span>
         </a>
         <button class="cart-btn" onclick="openCart()">
-            🛒 ตะกร้า <span id="cart-count" style="background: white; color: var(--dark-pink); padding: 2px 8px; border-radius: 10px; margin-left: 5px;">0</span>
+            🛒 ตะกร้า <span id="cart-count">0</span>
         </button>
     </header>
 
     <div class="container">
-        <h2 style="text-align: center; color: var(--dark-blue); margin-bottom: 30px;">🧬 อุปกรณ์วิทยาศาสตร์ชั้นนำ 🔬</h2>
+        <h2 style="text-align: center; color: var(--dark-blue); margin-bottom: 30px;">🧬 อุปกรณ์วิทยาศาสตร์ระดับโปร 🔬</h2>
         <div class="product-grid" id="product-list"></div>
     </div>
 
@@ -111,63 +108,65 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('product-modal')">&times;</span>
             <img id="modal-img" style="width:100%; border-radius:10px;">
-            <h2 id="modal-title" style="margin:15px 0 5px;"></h2>
+            <h2 id="modal-title" style="margin-top:15px;"></h2>
             <p id="modal-price" style="color:var(--dark-pink); font-size:1.5rem; font-weight:bold;"></p>
-            <div id="modal-desc" style="background:#f9f9f9; padding:15px; border-radius:10px; margin:15px 0;"></div>
-            <button class="btn" id="modal-add-btn" style="width:100%;">เพิ่มลงตะกร้า</button>
+            <div id="modal-desc" style="background:#f9f9f9; padding:15px; border-radius:10px; margin:15px 0; line-height:1.6;"></div>
+            <button class="btn" id="modal-add-btn" style="width:100%;">ใส่ตะกร้าเลย!</button>
         </div>
     </div>
 
     <div class="modal" id="cart-modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('cart-modal')">&times;</span>
-            <h2 style="border-bottom: 2px solid var(--primary-pink); padding-bottom: 10px;">🛒 ตะกร้าของคุณ</h2>
-            
-            <div id="cart-items" style="margin-top:15px;"></div>
+            <h2 style="border-bottom: 2px solid var(--primary-pink); padding-bottom: 10px;">🛒 รายการในตะกร้า</h2>
+            <div id="cart-items" style="margin-top:15px; max-height: 200px; overflow-y: auto;"></div>
 
             <div id="checkout-section" style="display: none;">
-                <div class="shipping-options">
-                    <h4 style="color:var(--dark-blue);">🚚 วิธีการจัดส่ง:</h4>
-                    <label><input type="radio" name="shipping" value="0" checked onchange="calculateTotal()"> ส่งธรรมดา (ฟรี)</label>
-                    <label><input type="radio" name="shipping" value="0" onchange="calculateTotal()"> เก็บเงินปลายทาง (ฟรี)</label>
+                <div style="background:#f0faff; padding:15px; border-radius:10px; margin:15px 0;">
+                    <h4 style="margin-bottom:10px;">🚚 เลือกการจัดส่ง:</h4>
+                    <label><input type="radio" name="shipping" value="0" checked onchange="calculateTotal()"> ส่งธรรมดา (ฟรี)</label><br>
                     <label><input type="radio" name="shipping" value="20" onchange="calculateTotal()"> ส่งด่วนพิเศษ (+20 บาท)</label>
                 </div>
 
                 <div class="form-group">
-                    <h4>📍 ข้อมูลการจัดส่ง:</h4>
-                    <input type="text" id="cust-name" class="input-field" placeholder="ชื่อ-นามสกุล ผู้รับ">
-                    <input type="tel" id="cust-phone" class="input-field" placeholder="เบอร์โทรศัพท์ที่ติดต่อได้">
-                    <textarea id="cust-address" class="input-field" placeholder="ที่อยู่ในการจัดส่งโดยละเอียด (บ้านเลขที่, แขวง/ตำบล, เขต/อำเภอ, จังหวัด, รหัสไปรษณีย์)"></textarea>
+                    <h4 style="margin-bottom:10px;">📍 ข้อมูลผู้รับ:</h4>
+                    <input type="text" id="cust-name" class="input-field" placeholder="ชื่อ-นามสกุล">
+                    <input type="tel" id="cust-phone" class="input-field" placeholder="เบอร์โทรศัพท์">
+                    <textarea id="cust-address" class="input-field" placeholder="ที่อยู่จัดส่งโดยละเอียด"></textarea>
                 </div>
 
-                <div style="text-align: right; font-size: 1.3rem; font-weight: bold; color: var(--dark-blue);">
-                    ยอดรวมสุทธิ: <span id="cart-total" style="color: var(--dark-pink);">0</span> บาท
+                <div style="text-align: right; font-size: 1.3rem; font-weight: bold;">
+                    ยอดรวม: <span id="cart-total" style="color: var(--dark-pink);">0</span> บาท
                 </div>
-                <button class="btn" style="width: 100%; margin-top: 20px; padding: 15px;" onclick="processOrder()">ยืนยันการสั่งซื้อ</button>
+                <button class="btn" style="width: 100%; margin-top: 15px; padding: 15px;" onclick="processOrder()">ยืนยันสั่งซื้อสินค้า</button>
             </div>
         </div>
     </div>
 
     <script>
         const products = [
-            { id: 1, name: "เครื่องโครมาโทกราฟี (HPLC)", price: 4000000, img: "images/chromatro.jpg", desc: "วิเคราะห์สารผสมความละเอียดสูง" },
-            { id: 2, name: "เครื่องชั่งดิจิทัล 4 ตำแหน่ง", price: 400000, img: "images/chung.jpg", desc: "ความแม่นยำสูงระดับห้องแล็บ" },
-            { id: 3, name: "เครื่อง Autoclave", price: 1000000, img: "images/nung.jpg", desc: "ฆ่าเชื้อด้วยแรงดันไอน้ำ" },
-            { id: 4, name: "ตู้ปลอดเชื้อ (Laminar Flow)", price: 900000, img: "images/pod.jpg", desc: "ระบบกรอง HEPA ปลอดเชื้อ 100%" },
-            { id: 5, name: "ชุดไมโครปิเปต (Micropipette)", price: 120000, img: "images/pipett.jpg", desc: "แม่นยำทุกหยด ปรับปริมาตรได้" }
+            { id: 1, name: "เครื่องโครมาโทกราฟีของเหลว (HPLC)", price: 4000000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• แยกและวิเคราะห์สารผสมความซับซ้อนสูง<br>• ระบบปั๊มแรงดันสูง<br>• มีตัวตรวจจับ (UV/Vis Detector)<br>• ควบคุมผ่านซอฟต์แวร์วิเคราะห์ข้อมูล<br><br><b>เหมาะสำหรับ:</b> งานวิเคราะห์ยา, อาหาร, สิ่งแวดล้อม`, img: "images/chromatro.jpg" },
+            { id: 2, name: "เครื่องชั่งวิเคราะห์ความละเอียดสูง", price: 400000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ความละเอียด 0.0001 กรัม (0.1 mg)<br>• ตู้กระจกกันลมเพื่อความแม่นยำ<br>• ระบบปรับเทียบอัตโนมัติ<br>• หน้าจอดิจิทัลความคมชัดสูง<br><br><b>เหมาะสำหรับ:</b> งานเตรียมสารมาตรฐาน, งานวิจัยเชิงปริมาณ`, img: "images/chung.jpg" },
+            { id: 3, name: "เครื่องนึ่งฆ่าเชื้อความดันไอน้ำ (Autoclave)", price: 1000000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ฆ่าเชื้อด้วยไอน้ำแรงดันสูง 121–134°C<br>• ระบบควบคุมอุณหภูมิและเวลาอัตโนมัติ<br>• โครงสร้างสแตนเลสเกรดอุตสาหกรรม<br>• ระบบความปลอดภัยหลายชั้น<br><br><b>เหมาะสำหรับ:</b> ห้องปฏิบัติการชีววิทยา, โรงพยาบาล`, img: "images/nung.jpg" },
+            { id: 4, name: "ตู้ปลอดเชื้อ (Laminar Air Flow)", price: 900000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ระบบกรอง HEPA Filter ประสิทธิภาพสูง<br>• สร้างสภาวะปลอดเชื้อสำหรับเตรียมตัวอย่าง<br>• มีหลอดไฟ UV ฆ่าเชื้อ<br>• กระจกนิรภัยด้านหน้า<br><br><b>เหมาะสำหรับ:</b> งานเพาะเลี้ยงเซลล์, งานจุลชีววิทยา`, img: "images/pod.jpg" },
+            { id: 5, name: "เครื่องระเหยสารแบบหมุน (Rotavap)", price: 800000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ใช้ระเหยตัวทำละลายภายใต้ความดันต่ำ<br>• ควบคุมอุณหภูมิอ่างน้ำได้แม่นยำ<br>• ระบบหมุนช่วยเพิ่มพื้นที่ผิวการระเหย<br>• มีคอนเดนเซอร์ควบแน่นไอสาร<br><br><b>เหมาะสำหรับ:</b> งานสกัดสาร, เคมีอินทรีย์`, img: "images/rahei.jpg" },
+            { id: 6, name: "เครื่องสเปกโตรโฟโตมิเตอร์ (UV-Vis)", price: 1200000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• วิเคราะห์การดูดกลืนแสงช่วง UV และ Visible<br>• ใช้วัดความเข้มข้นของสาร<br>• มีหน้าจอดิจิทัลและระบบประมวลผลข้อมูล<br>• รองรับงานวิเคราะห์เชิงคุณภาพและปริมาณ<br><br><b>เหมาะสำหรับ:</b> เคมีวิเคราะห์, ชีวเคมี`, img: "images/spectro.jpg" },
+            { id: 7, name: "เครื่องปั่นเหวี่ยงความเร็วสูง (Centrifuge)", price: 1500000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ความเร็วรอบสูงถึง 30,000 rpm<br>• ระบบล็อกฝาปลอดภัย<br>• ควบคุมรอบและเวลาแบบดิจิทัล<br>• รองรับโรเตอร์หลายประเภท<br><br><b>เหมาะสำหรับ:</b> เเยกตะกอน, งานชีวโมเลกุล`, img: "images/weang.jpg" },
+            { id: 8, name: "ตู้บ่มควบคุมอุณหภูมิ (Incubator)", price: 700000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ควบคุมอุณหภูมิได้แม่นยำ ±0.1–0.5°C<br>• ระบบกระจายความร้อนสม่ำเสมอ<br>• หน้าจอดิจิทัลตั้งค่าได้ง่าย<br>• ประตูสองชั้นลดการสูญเสียความร้อน<br><br><b>เหมาะสำหรับ:</b> เพาะเลี้ยงจุลชีพ, ทดสอบความคงตัว`, img: "images/bom.jpg" },
+            { id: 9, name: "ตู้อบสุญญากาศ (Vacuum Oven)", price: 1200000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• อบแห้งภายใต้สภาวะสุญญากาศ<br>• เหมาะกับสารไวความร้อน<br>• ระบบควบคุมอุณหภูมิแม่นยำ<br>• มีช่องมองกระจกนิรภัย<br><br><b>เหมาะสำหรับ:</b> งานอบตัวอย่างสารอินทรีย์`, img: "images/oob.jpg" },
+            { id: 10, name: "ชุดไมโครปิเปต (Micropipette Set)", price: 120000, desc: `<b>คุณสมบัติการใช้งาน</b><br>• ปรับปริมาตรได้หลายช่วง (µL – mL)<br>• ความแม่นยำสูง ±0.5–1%<br>• ออกแบบตามหลักสรีรศาสตร์<br>• ทนสารเคมีและฆ่าเชื้อได้<br><br><b>เหมาะสำหรับ:</b> งานชีวเคมี, เตรียมสารปริมาตรน้อย`, img: "images/pipett.jpg" }
         ];
 
         let cart = [];
         let baseTotal = 0;
 
-        // แสดงสินค้า
         const list = document.getElementById('product-list');
         products.forEach(p => {
             list.innerHTML += `
                 <div class="product-card">
                     <img src="${p.img}" class="product-img" onclick="showDetails(${p.id})">
                     <div class="product-info">
-                        <h3>${p.name}</h3>
+                        <h3 class="product-title">${p.name}</h3>
                         <p class="product-price">฿${p.price.toLocaleString()}</p>
                         <button class="btn" onclick="addToCart(${p.id})">เพิ่มลงตะกร้า</button>
                     </div>
@@ -193,18 +192,17 @@
             const itemsDiv = document.getElementById('cart-items');
             itemsDiv.innerHTML = '';
             baseTotal = 0;
-
             if (cart.length === 0) {
-                itemsDiv.innerHTML = '<p style="text-align:center; color:#999;">ตะกร้าว่างเปล่า...</p>';
+                itemsDiv.innerHTML = '<p style="text-align:center; padding:20px; color:#999;">ไม่มีสินค้าในตะกร้า</p>';
                 document.getElementById('checkout-section').style.display = 'none';
             } else {
                 document.getElementById('checkout-section').style.display = 'block';
                 cart.forEach((item, index) => {
                     baseTotal += item.price;
                     itemsDiv.innerHTML += `
-                        <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px dashed #eee; padding-bottom:5px;">
-                            <span>${item.name}</span>
-                            <span>฿${item.price.toLocaleString()} <button onclick="remove(${index})" style="color:red; border:none; background:none; cursor:pointer;">✖</button></span>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
+                            <span style="font-size:0.9rem;">${item.name}</span>
+                            <span>฿${item.price.toLocaleString()} <button onclick="remove(${index})" style="color:red; border:none; background:none; cursor:pointer; font-weight:bold;">✖</button></span>
                         </div>`;
                 });
             }
@@ -223,30 +221,25 @@
 
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // ฟังก์ชันยืนยันการสั่งซื้อ
         function processOrder() {
             const name = document.getElementById('cust-name').value;
             const phone = document.getElementById('cust-phone').value;
             const address = document.getElementById('cust-address').value;
 
-            // ตรวจสอบข้อมูล
             if (!name || !phone || !address) {
-                alert('กรุณากรอกข้อมูลชื่อ เบอร์โทร และที่อยู่ให้ครบถ้วนด้วยนะครับ 😊');
+                alert('กรุณากรอกข้อมูลให้ครบถ้วนก่อนสั่งซื้อนะครับสุดสวย!');
                 return;
             }
 
-            // แสดงหน้าความสำเร็จ
             document.getElementById('cart-items').innerHTML = `
                 <div style="text-align:center; padding: 20px;">
-                    <h2 style="color:var(--science-cyan);">🎉 สั่งซื้อเรียบร้อย!</h2>
-                    <p style="margin-top:10px;">ขอบคุณคุณ <b>${name}</b><br>เราจะจัดส่งสินค้าไปยังที่อยู่ของคุณโดยเร็วที่สุด</p>
-                    <p style="color:#666; font-size:0.9rem; margin-top:10px;">เบอร์ติดต่อ: ${phone}</p>
+                    <h2 style="color:var(--science-cyan);">🚀 สั่งซื้อสำเร็จ!</h2>
+                    <p style="margin-top:10px;">ขอบคุณคุณ <b>${name}</b><br>ออเดอร์ของคุณกำลังเตรียมจัดส่งไปที่:<br>${address}</p>
                 </div>`;
             document.getElementById('checkout-section').style.display = 'none';
             cart = [];
             document.getElementById('cart-count').innerText = '0';
-            
-            setTimeout(() => { closeModal('cart-modal'); }, 4000);
+            setTimeout(() => { closeModal('cart-modal'); }, 5000);
         }
     </script>
 </body>
